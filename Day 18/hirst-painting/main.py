@@ -1,5 +1,5 @@
 # import colorgram
-from turtle import Turtle, Screen, colormode
+from turtle import Turtle, Screen, colormode, hideturtle
 from random import choice
 
 # colors = colorgram.extract('image.jpg', 20)
@@ -12,7 +12,7 @@ from random import choice
 #     color_list.append(new_color)
 
 color_list = [(197, 165, 117), (142, 80, 56), (220, 201, 137), (59, 94, 119), (164, 152, 53), (136, 162, 181), (131, 34, 22), (69, 39, 32), (53, 117, 86), (192, 95, 78), (146, 177, 149), (19, 91, 68), (165, 143, 157), (31, 59, 76), (111, 75, 81), (228, 176, 164)]
-
+hideturtle()
 tim = Turtle()
 screen = Screen()
 colormode(255)
