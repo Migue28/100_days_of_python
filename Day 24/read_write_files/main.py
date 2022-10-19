@@ -1,7 +1,12 @@
-with open("new_file", mode="w") as file:
-    file.write("New text and file.")
+# with open("new_file.txt", mode="w") as file:
+#     file.write("New text and file.")
 
-with open("my_file.txt", mode="w") as file:
-    file.write(" + lo nuevo")
+with open("C:/Users/migue/Desktop/new_file.txt") as file:
+    content = file.read()
+    print(content)
+
+with open("../../../../../Desktop/new_file.txt") as file:
+    content = file.read()
+    print(content)
 
 
