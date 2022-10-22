@@ -1,0 +1,13 @@
+numbers = [1, 2, 3, 4]
+new_numbers = [n+1 for n in numbers]
+odd_numbers = [n for n in numbers if n%2 != 0]
+name = "Eddy"
+new_name_list = [s for s in name]
+range_double = [i for i in range(1,5)]
+range_double = [i*2 for i in range(1,5)]
+names = ["Alex", "Beth", "Caroline", "Dave", "Eleanor", "Freddie"]
+name_list = [name.upper() for name in names if len(names) >= 5]
+name_list = [name.upper() for name in names if len(name) >= 5]
+long_name_list = [name.upper() if len(name) > 5 else name for name in names if len(name) >= 5]
+long_name_list = [name.upper() if len(name) > 5 else name for name in names if len(name) < 5]
+long_name_list = [name.upper() if len(name) >= 5 else name for name in names]
