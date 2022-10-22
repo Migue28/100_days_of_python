@@ -29,9 +29,9 @@ while game_is_on:
     if user_points == len(data):
         game_is_on = False
 
-missing_states = []
-for state in data.state.to_list():
-    if state not in user_states:
-        missing_states.append(state)
+missing_states = [state for state in data.state.to_list() if state not in user_states]
+# for state in data.state.to_list():
+#     if state not in user_states:
+#         missing_states.append(state)
 
 pd.DataFrame(missing_states).to_csv("missing_states.csv")
