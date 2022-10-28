@@ -1,6 +1,5 @@
 from tkinter import *
-import time
-
+import math
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -10,20 +9,62 @@ FONT_NAME = "Courier"
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
+repetitions = 0
+timer = None
+
 
 # ---------------------------- TIMER RESET ------------------------------- # 
+def reset_app():
+    global repetitions
+    global timer
+    window.after_cancel(timer)
+    repetitions = 0
+    check_label.config(text="")
+    canvas.itemconfig(timer_text, text="00:00")
+    title_label.config(text="Timer")
 
 
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 def start_timer():
-    count_down(5)
+    global repetitions
+    repetitions += 1
+    # 25 minutes lapses
+    # 1 min = 60 secs
+    work_sec = WORK_MIN
+    short_break_sec = SHORT_BREAK_MIN
+    long_break_sec = LONG_BREAK_MIN
+    if repetitions % 2 != 0:
+        count_down(work_sec)
+        title_label.config(text="Working", fg=GREEN)
+    elif repetitions % 8 == 0:
+        count_down(long_break_sec)
+        title_label.config(text="Long Break", fg=RED)
+        check_text = check_label.cget("text")
+        check_text += "✓"
+        check_label.config(text=check_text)
+    elif repetitions % 2 == 0:
+        count_down(short_break_sec)
+        title_label.config(text="Short Break", fg=PINK)
+        check_text = check_label.cget("text")
+        check_text += "✓"
+        check_label.config(text=check_text)
+    else:
+        count_down(work_sec)
+        title_label.config(text="Working", fg=GREEN)
 
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 def count_down(count):
-    canvas.itemconfig(timer_text, text=count)
+    count_min = math.floor(count / 60)
+    count_sec = count % 60
+    if len(str(count_sec)) == 1:
+        count_sec = f"0{count_sec}"
+    canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
     if count > 0:
-        window.after(1000, count_down, count - 1)
+        global timer
+        timer = window.after(1000, count_down, count - 1)
+    else:
+        start_timer()
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -48,7 +89,7 @@ check_label.grid(row=3, column=1)
 start_button = Button(text="Start", font=(FONT_NAME, 15), command=start_timer)
 start_button.grid(row=2, column=0)
 
-reset_button = Button(text="Reset", font=(FONT_NAME, 15))
+reset_button = Button(text="Reset", font=(FONT_NAME, 15), command=reset_app)
 reset_button.grid(row=2, column=2)
 
 window.mainloop()
