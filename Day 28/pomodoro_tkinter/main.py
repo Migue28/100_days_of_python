@@ -30,9 +30,9 @@ def start_timer():
     repetitions += 1
     # 25 minutes lapses
     # 1 min = 60 secs
-    work_sec = WORK_MIN
-    short_break_sec = SHORT_BREAK_MIN
-    long_break_sec = LONG_BREAK_MIN
+    work_sec = WORK_MIN*60
+    short_break_sec = SHORT_BREAK_MIN*60
+    long_break_sec = LONG_BREAK_MIN*60
     if repetitions % 2 != 0:
         count_down(work_sec)
         title_label.config(text="Working", fg=GREEN)
