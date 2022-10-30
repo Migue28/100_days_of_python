@@ -1,5 +1,5 @@
 from tkinter import *
-import pandas as pd
+from tkinter import messagebox
 
 WHITE = "#ffffff"
 
@@ -16,8 +16,15 @@ def save_account():
     user_name = user_mail.get()
     password_name = password.get()
     account_format = f"Web: {web_name} || User: {user_name} || Password: {password_name}\n"
-    with open(mode="a", file="saved_accounts.txt") as file:
-        file.write(account_format)
+    if messagebox.askokcancel(message=f"Want to save this account? User: {user_name}, password: {password_name}"):
+        print("Esto entro")
+        if web_name != "" and user_name != "" and password_name != "":
+            with open(mode="a", file="saved_accounts.txt") as file:
+                file.write(account_format)
+            user_web.delete(0, END)
+            password.delete(0, END)
+        else:
+            messagebox.showerror(title="Oh oh", message="All fields are necessary")
 
 
 window = Tk()
@@ -55,7 +62,7 @@ password.grid(row=3, column=1)
 generate_password_button = Button(text="Generate Password")
 generate_password_button.grid(row=3, column=2)
 
-add_password_button = Button(text="Add", width=43, command=save_account)
+add_password_button = Button(text="Save", width=43, command=save_account)
 add_password_button.grid(row=4, column=1, columnspan=2)
 
 window.mainloop()
