@@ -1,17 +1,24 @@
 from tkinter import *
 from tkinter import messagebox
+import password_generator
+import pyperclip
 
 WHITE = "#ffffff"
 
 
 # TODO 2: Generate random password
-def generate_password():
-    pw = ""
-
-
 # TODO 3: Clip generated password in clipboard to paste easily
+def generate_password():
+    _password = password_generator.generate_password()
+    pyperclip.copy(_password)
+    password.delete(0, END)
+    password.insert(0, _password)
+
+
 # TODO 4: Save generated tuple to a file
 def save_account():
+    """Save register to file as append, show new password in screen and
+    copy on clipboard."""
     web_name = user_web.get()
     user_name = user_mail.get()
     password_name = password.get()
@@ -59,7 +66,7 @@ password = Entry(width=32)
 password.insert(END, "")
 password.grid(row=3, column=1)
 
-generate_password_button = Button(text="Generate Password")
+generate_password_button = Button(text="Generate Password", command=generate_password)
 generate_password_button.grid(row=3, column=2)
 
 add_password_button = Button(text="Save", width=43, command=save_account)
