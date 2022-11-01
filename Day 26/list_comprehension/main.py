@@ -38,6 +38,16 @@ import pandas as pd
 df = pd.read_csv("nato_phonetic_alphabet.csv")
 data = {row.letter: row.code for (index, row) in df.iterrows()}
 
-user_word = input("Enter a word: ").upper()
-word_list = [data[letter] for letter in user_word]
-print(word_list)
+
+def generate_phonetic():
+    user_word = input("Enter a word: ").upper()
+    try:
+        word_list = [data[letter] for letter in user_word]
+    except KeyError:
+        print("Only letter in the alphabet are valid.")
+        generate_phonetic()
+    else:
+        print(word_list)
+
+
+generate_phonetic()
