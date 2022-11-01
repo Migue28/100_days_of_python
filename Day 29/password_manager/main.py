@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import password_generator
 import pyperclip
+import json
 
 WHITE = "#ffffff"
 
@@ -22,16 +23,32 @@ def save_account():
     web_name = user_web.get()
     user_name = user_mail.get()
     password_name = password.get()
-    account_format = f"Web: {web_name} || User: {user_name} || Password: {password_name}\n"
-    if messagebox.askokcancel(message=f"Want to save this account? User: {user_name}, password: {password_name}"):
-        print("Esto entro")
-        if web_name != "" and user_name != "" and password_name != "":
-            with open(mode="a", file="saved_accounts.txt") as file:
-                file.write(account_format)
+    account_format = {
+        web_name: {
+            "email": user_name,
+            "password": password_name
+        },
+    }
+
+    if web_name != "" and user_name != "" and password_name != "":
+        try:
+            with open(mode="r", file="saved_accounts.json") as data_file:
+                # Reading old data
+                data = json.load(data_file)
+        except FileNotFoundError:
+            with open(mode="w", file="saved_accounts.json") as data_file:
+                json.dump(account_format, data_file, indent=4)
+        else:
+            # Update old data
+            data.update(account_format)
+            with open(mode="w", file="saved_accounts.json") as data_file:
+                # Save updated data
+                json.dump(data, data_file, indent=4)
+        finally:
             user_web.delete(0, END)
             password.delete(0, END)
-        else:
-            messagebox.showerror(title="Oh oh", message="All fields are necessary")
+    else:
+        messagebox.showerror(title="Oh oh", message="All fields are necessary")
 
 
 window = Tk()
