@@ -51,6 +51,23 @@ def save_account():
         messagebox.showerror(title="Oh oh", message="All fields are necessary")
 
 
+def search_account():
+    try:
+        with open("saved_accounts.json", "r") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="No data created", message="There is no file created.")
+    else:
+        website = user_web.get()
+        if website in data:
+
+            messagebox.showinfo(title=f"{website}",
+                                message=f"""Email: {data[website]['email']}
+Password: {data[website]['password']}""")
+        else:
+            messagebox.showinfo(title="Account does not exist", message=f"No details for this {website}")
+
+
 window = Tk()
 window.title("Password Manager")
 window.config(padx=50, pady=50)
@@ -64,9 +81,9 @@ canvas.grid(row=0, column=1)
 user_web_label = Label(text="Website:")
 user_web_label.grid(row=1, column=0)
 
-user_web = Entry(width=51)
+user_web = Entry(width=32)
 user_web.insert(END, "")
-user_web.grid(row=1, column=1, columnspan=2)
+user_web.grid(row=1, column=1)
 user_web.focus()
 
 user_mail_label = Label(text="Email/Username:")
@@ -88,5 +105,8 @@ generate_password_button.grid(row=3, column=2)
 
 add_password_button = Button(text="Save", width=43, command=save_account)
 add_password_button.grid(row=4, column=1, columnspan=2)
+
+search_button = Button(text="Search", width=14, command=search_account)
+search_button.grid(row=1, column=2)
 
 window.mainloop()
