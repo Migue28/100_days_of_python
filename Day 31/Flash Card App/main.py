@@ -8,10 +8,14 @@ window.title("Chinese Flashcard App")
 window.config(bg=BACKGROUND_COLOR, pady=50, padx=50)
 flashcard = Flashcard(10)
 language = "zh"
+TIMER = 5000
 
 
 def show_card():
     global language
+    image = PhotoImage()
+    card_title = ""
+    card_word = ""
     if language == "zh":
         card_title = "Chino"
         card_word = "Simplified"
@@ -43,7 +47,17 @@ def change_selected_card():
     language = "zh"
     show_card()
     change_language()
-    window.after(5000, show_card)
+    window.after(TIMER, show_card)
+
+
+def change_select_and_remove_card():
+    global card, language
+    flashcard.remove_right_card(card)
+    card = flashcard.select_card()
+    language = "zh"
+    show_card()
+    change_language()
+    window.after(TIMER, show_card)
 
 
 # Card Layout
@@ -57,20 +71,24 @@ canvas.grid(row=0, column=0, columnspan=2)
 # Buttons layout
 wrong_image = PhotoImage(file="images/wrong.png")
 right_image = PhotoImage(file="images/right.png")
-wrong_button = Button(image=wrong_image, highlightthickness=0, command=change_selected_card)
+wrong_button = Button(image=wrong_image, highlightthickness=0)
 wrong_button.grid(row=1, column=0)
-
+right_button = Button(image=right_image, highlightthickness=0)
+right_button.grid(row=1, column=1)
 
 # Card behavior
 card = flashcard.select_card()
 canvas_card_title = canvas.create_text(400, 100, font=("Courier New", 20))
 canvas_card_pinyin = canvas.create_text(400, 150, font=("Courier New", 20))
 canvas_card_word = canvas.create_text(400, 263, font=("Courier New", 80))
-show_card()
-window.after(1000, show_card)
 
 # Button behavior
-right_button = Button(image=right_image, highlightthickness=0, command=flashcard.remove_right_card(card))
-right_button.grid(row=1, column=1)
+wrong_button.config(command=change_selected_card)
+right_button.config(command=change_select_and_remove_card)
+
+# App behavior
+show_card()
+change_language()
+window.after(TIMER, show_card)
 
 window.mainloop()
