@@ -7,16 +7,37 @@ window = Tk()
 window.title("Chinese Flashcard App")
 window.config(bg=BACKGROUND_COLOR, pady=50, padx=50)
 flashcard = Flashcard()
-card = flashcard.select_card()
+language = "zh"
+
+
+def change_language():
+    global language
+    if language == "zh":
+        card_title = "Chino"
+        card_word = "Simplified"
+        language = "es"
+        image = card_front_image
+        pinyin = "Pinyin"
+        canvas.itemconfig(canvas_card_pinyin, text=card[f"{pinyin}"])
+
+    elif language == "es":
+        card_title = "Español"
+        card_word = "G_Meaning"
+        language = "zh"
+        image = card_back_image
+        canvas.itemconfig(canvas_card_pinyin, text="")
+    canvas.itemconfig(canvas_card_image, image=image)
+    canvas.itemconfig(canvas_card_title, text=f"{card_title}")
+    canvas.itemconfig(canvas_card_word, text=card[f"{card_word}"].capitalize())
+
 
 # Card Layout
 canvas = Canvas(width=800, height=526, bg=BACKGROUND_COLOR, highlightthickness=0)
 card_back_image = PhotoImage(file="images/card_back.png")
 card_front_image = PhotoImage(file="images/card_front.png")
-canvas.create_image(400, 263, image=card_front_image)
+canvas_card_image = canvas.create_image(400, 263)
 canvas.grid(row=0, column=0, columnspan=2)
-canvas.create_text(400, 100, text="Chino", font=("Courier New", 20))
-canvas.create_text(400, 263, text=card["Simplified"], font=("Courier New", 80))
+
 
 # Buttons layout
 wrong_image = PhotoImage(file="images/wrong.png")
@@ -25,5 +46,13 @@ wrong_button = Button(image=wrong_image, highlightthickness=0)
 wrong_button.grid(row=1, column=0)
 right_button = Button(image=right_image, highlightthickness=0)
 right_button.grid(row=1, column=1)
+
+# Card behavior
+card = flashcard.select_card()
+canvas_card_title = canvas.create_text(400, 100, font=("Courier New", 20))
+canvas_card_pinyin = canvas.create_text(400, 150, font=("Courier New", 20))
+canvas_card_word = canvas.create_text(400, 263, font=("Courier New", 80))
+change_language()
+window.after(5000, change_language)
 
 window.mainloop()

@@ -1,5 +1,5 @@
 import pandas as pd
-from random import randint
+from random import randint, choice
 
 data = pd.read_csv("data/Chinese_to_spanish.csv")
 df = pd.DataFrame(data)
@@ -12,4 +12,8 @@ class Flashcard:
         self.wrong_card_index = 1
 
     def select_card(self):
-        return df[["Simplified", "G_Meaning"]].iloc[self.card_index]
+        return df[["Simplified", "Pinyin", "G_Meaning"]].iloc[self.card_index]
+
+
+flash = Flashcard()
+flash.card_with_loc()
