@@ -2,13 +2,14 @@ from tkinter import *
 from flashcard import Flashcard
 
 BACKGROUND_COLOR = "#B1DDC6"
+TIMER = 2000
+CARD_QUANTITY = 20
 
 window = Tk()
 window.title("Chinese Flashcard App")
 window.config(bg=BACKGROUND_COLOR, pady=50, padx=50)
-flashcard = Flashcard(10)
+flashcard = Flashcard(CARD_QUANTITY)
 language = "zh"
-TIMER = 5000
 
 
 def show_card():
