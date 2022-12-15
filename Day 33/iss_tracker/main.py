@@ -40,7 +40,7 @@ time_now = datetime.now().hour
 while True:
     time.sleep(60)
     # My position is within +5 or -5 degrees of the ISS position
-    if fabs(MY_LAT - iss_latitude) == 5 or fabs(MY_LONG - iss_latitude) == 5 and time_now == sunset:
+    if fabs(MY_LAT - iss_latitude) <= 5 or fabs(MY_LONG - iss_latitude) <= 5 and time_now == sunset:
         connection = smtplib.SMTP("smtp.gmail.com")
         connection.starttls()
         connection.login(MY_EMAIL, MY_PASSWORD)
