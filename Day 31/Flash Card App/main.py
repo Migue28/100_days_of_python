@@ -2,7 +2,7 @@ from tkinter import *
 from flashcard import Flashcard
 
 BACKGROUND_COLOR = "#B1DDC6"
-TIMER = 2000
+TIMER = 5000
 CARD_QUANTITY = 20
 
 window = Tk()
